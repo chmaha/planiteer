@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planiteer - To-do List</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="stylesheet" href="assets/css/todo-styles.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/solid.min.css">
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="hiddenWhenFocused" id="theme-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <label for="darkModeToggle">Dark Mode</label>
+        </div>
+        <div class="hiddenWhenFocused" id="sounds-switch">
+            <input type="checkbox" id="soundsToggle" checked>
+            <label for="soundsToggle">Sounds</label>
+        </div>
+        <div id="confetti-container"></div>
+        <img id="logo" src="assets/images/planiteer.webp" alt="Planiteer Logo">
+        <div class="hiddenWhenFocused">
+            <label for="strictModeCheckbox">
+                <input type="checkbox" id="strictModeCheckbox" />
+                Strict Mode
+                <span class="help-icon">?
+                    <span class="tooltip-text">Hides previous and next buttons to prevent skipping between tasks</span>
+                </span>
+            </label>
+        </div>
+        <div class="hiddenWhenFocused" id="pomodoroSection">
+            <label style="display: inline;">
+                <input type="checkbox" id="pomodoroCheckbox"> Pomodoro Timer
+                <span class="help-icon">?
+                    <span class="tooltip-text">Enable a focus timer and scheduled breaks</span>
+                </span>
+            </label>
+            <span id="settingsLink">
+                <a href="#" id="toggleSettings">Settings</a>
+            </span>
+            <div id="pomodoroSettings">
+                <label for="focusDuration">Focus Duration (minutes):</label>
+                <input type="number" id="focusDuration" min="1" value="25">
+
+                <label for="shortBreakDuration">Short Break Duration (minutes):</label>
+                <input type="number" id="shortBreakDuration" min="1" value="5">
+
+                <label for="longBreakDuration">Long Break Duration (minutes):</label>
+                <input type="number" id="longBreakDuration" min="1" value="15">
+
+                <label>
+                    <input type="checkbox" id="autoStartNextPomodoro"> Auto start pomodoros after break
+                </label>
+
+                <label>
+                    <input type="checkbox" id="autoSwitchToNextTask"> Auto switch tasks when starting next pomodoro
+                </label>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="itemInput" placeholder="Enter a to-do item and press return…">
+            <button id="pasteBtn">Clipboard Paste</button>
+        </div>
+        <div class="input-container-phone">
+            <input type="text" id="itemInput-phone" placeholder="Enter a to-do item">
+            <div id="buttonContainer">
+                <button id="addItemBtn">Add</button>
+                <button id="pasteBtn-phone">Clipboard Paste</button>
+            </div>
+        </div>
+        <div>
+            <button id="editBtn" style="display: none;">Edit List</button>
+        </div>
+        <div id="pasteDropdown" style="display: none;">
+            <textarea id="pasteInput"
+                placeholder="Paste your task list here. Each line will be treated as a new task..."></textarea>
+            <span id="pasteControls">
+                <button id="saveTasksBtn">Add</button>
+                <button id="cancelPasteBtn">Cancel</button>
+            </span>
+        </div>
+
+        <ul id="todoList"></ul>
+
+        <button id="goBtn">Go</button>
+
+        <div id="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="doneBtn">Complete Task</button>
+            <button id="nextBtn">Next</button>
+        </div>
+
+        <div id="timerContainer">
+            <div id="timerDisplay">00:00</div>
+            <button id="takeBreakBtn">Take a Break</button>
+        </div>
+        <div class="hiddenWhenFocused">
+            <div id="completedTasksContainer"></div>
+            <button id="clearCompletedBtn">Clear All Completed Items</button>
+        </div>
+    </div>
+    <div class="donate-container hiddenWhenFocused">
+        <a href="https://paypal.me/reaclassical" target="_blank" class="donate-link">Donate via PayPal</a>
+    </div>
+    <script src="assets/JS/tsparticles.confetti.bundle.min.js"></script>
+    <script src="assets/JS/Sortable.min.js"></script>
+    <script src="assets/JS/todo-app.js"></script>
+</body>
+
+</html>

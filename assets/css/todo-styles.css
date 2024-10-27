@@ -1,0 +1,513 @@
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBMPlexSans/IBMPlexSans-Regular.woff2') format('woff2'),
+        url('../fonts/IBMPlexSans/IBMPlexSans-Regular.woff') format('woff'),
+        url('../fonts/IBMPlexSans/IBMPlexSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.hiddenWhenFocused {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 2s ease, visibility 2s ease;
+}
+
+.hiddenWhenFocused.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.main-content {
+    position: relative;
+}
+
+#theme-switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+}
+
+#theme-switch input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#sounds-switch {
+    position: absolute;
+    top: 30px;
+    right: 31px;
+    font-size: 0.9em;
+}
+
+#sounds-switch input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+body {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background-image: url('../images/leaves.webp');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+#logo {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.help-icon {
+    font-size: 0.8em;
+    color: #007BFF;
+    cursor: pointer;
+    vertical-align: super;
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.help-icon:hover .tooltip-text {
+    opacity: 1;
+}
+
+#strictModeCheckbox {
+    margin-bottom: 10px;
+}
+
+#pomodoroSettings {
+    display: none;
+    max-width: fit-content;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+#pomodoroSettings label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.8em;
+}
+
+#pomodoroSettings input[type="number"] {
+    width: 40px;
+    font-size: 0.9em;
+    margin-bottom: 3px;
+}
+
+#autoStartNextPomodoro {
+    margin-top: 10px;
+
+}
+
+#settingsLink {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+#settingsLink:hover {
+    text-decoration: none;
+}
+
+#pomodoroCheckbox {
+    margin-bottom: 10px;
+}
+
+#timerContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#timerDisplay {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.main-content {
+    background-color: white;
+    max-width: 500px;
+    min-height: 50vh;
+    margin: 50px auto 0px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.input-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.input-container-phone {
+    display: none;
+}
+
+#itemInput {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#itemInput-phone {
+    display: none;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: right;
+    width: 35%;
+    margin: 0 auto;
+}
+
+#pasteBtn {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#pasteBtn-phone {
+    display: none;
+}
+
+#editBtn {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#pasteDropdown {
+    display: flex;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+}
+
+#pasteInput {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+#pasteControls {
+    margin: 0 auto;
+    padding: 10px;
+}
+
+#todoList {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#todoList li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.handle {
+    cursor: grab;
+    margin-right: 10px;
+}
+
+#todoList li .number {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+#todoList li .text {
+    flex-grow: 1;
+}
+
+.todo-delete-btn {
+    color: #d96f6f;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.completed-delete-btn {
+    color: #d96f6f;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.hiddenItemElement {
+    display: none;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#goBtn,
+#prevBtn,
+#nextBtn {
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    width: 30%;
+}
+
+#doneBtn {
+    display: none;
+    position: relative;
+    background-color: #04AA6D;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 10px;
+    width: 30%;
+    text-align: center;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#doneBtn:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+#doneBtn:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+
+#clearCompletedBtn {
+    margin-top: 20px;
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 3px;
+    flex-grow: 1;
+}
+
+.completed-list {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    margin: 20px 0;
+}
+
+.completed-items {
+    display: none;
+    margin-top: 10px;
+}
+
+.dark-theme input,
+.dark-theme button {
+    background-color: #444444;
+    color: #bdbdbd;
+    border: 1px solid #666666;
+}
+
+.dark-theme .tooltip-text {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #222222;
+}
+
+.dark-theme {
+    background-image: url('../images/leaves_dark.webp');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+.dark-theme .main-content {
+    background-color: #1e1e1e;
+    color: #bdbdbd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.dark-theme .todo-item {
+    color: #464242;
+}
+
+.dark-theme #todoList li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #3b3737;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dark-theme .completed-list {
+    color: #797676;
+}
+
+.dark-theme .todo-delete-btn,
+.dark-theme .completed-delete-btn {
+    color: #797676;
+}
+
+.dark-theme #pomodoroSettings {
+    background-color: #444444;
+    color: #bdbdbd;
+}
+
+.dark-theme #toggleSettings {
+    color: #797676;
+}
+
+.completed-items {
+    padding: 10px;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.task-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+}
+
+.task-name {
+    flex: 1;
+    text-align: left;
+}
+
+.task-time {
+    width: 80px;
+    text-align: right;
+}
+
+.task-total {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.donate-container {
+    text-align: right;
+}
+
+.donate-link {
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+}
+
+.donate-link:hover {
+    color: #0070ba;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 430px) {
+    .input-container {
+        display: none;
+    }
+
+    .input-container-phone {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    #itemInput-phone {
+        display: flex;
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    #itemInput {
+        display: none;
+    }
+
+    #buttonContainer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    #addItemBtn {
+        padding-top: 10px;
+        min-width: 50%;
+        padding-bottom: 10px;
+        margin-right: 3px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #logo {
+        margin-top: 25px;
+    }
+
+    #pasteBtn-phone {
+        display: flex;
+        justify-content: center;
+        min-width: 45%;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #pasteBtn {
+        display: none;
+    }
+}
