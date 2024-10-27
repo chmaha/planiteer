@@ -1,0 +1,227 @@
+body {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background-image: url('images/leaves.webp');
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+#logo {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    height: auto; 
+    margin-bottom: 20px;  
+}
+
+.main-content {
+    background-color: white;
+    max-width: 500px;
+    min-height: 50vh;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+h2 {
+    font-family: "Mayfair Display", serif;
+    font-size: 32px;
+    text-align: center;
+}
+
+.input-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#itemInput {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#addItemBtn {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#pasteBtn {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#todoList {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#todoList li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f3f3f3;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#todoList li .number {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#todoList li .text {
+    flex-grow: 1;
+}
+
+.todo-delete-btn {
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.completed-delete-btn {
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.hidden {
+    display: none;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#goBtn,
+#prevBtn,
+#nextBtn {
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    width: 30%;
+}
+
+#doneBtn {
+    display: none;
+    position: relative;
+    background-color: #04AA6D;
+    border: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 10px;
+    width: 30%;
+    text-align: center;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#doneBtn:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+#doneBtn:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+
+#clearCompletedBtn {
+    margin-top: 20px;
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 3px;
+    flex-grow: 1;
+}
+
+#completionMessage {
+    text-align: center;
+    font-weight: bold;
+    color: green;
+    display: none;
+}
+
+.completed-list {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    margin: 20px 0;
+}
+
+.completed-items {
+    display: none;
+    margin-top: 10px;
+}
+
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: fall 2s forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh);
+        /* Fall to the bottom of the viewport */
+        opacity: 0;
+    }
+}
