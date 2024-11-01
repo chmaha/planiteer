@@ -7,4 +7,5 @@
 - Press "Prev" or "Next" to skip around
 - Press "Done" to complete a task (automatically moves to next uncompleted task)
 - Completed lists are saved locally (click to expand)
+- Optional "strict" mode hides previous and next buttons
 
