@@ -18,6 +18,36 @@ body {
     margin-bottom: 20px;
 }
 
+.help-icon {
+    font-size: 0.8em;
+    color: #007BFF;
+    cursor: pointer;
+    vertical-align: super;
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.help-icon:hover .tooltip-text {
+    opacity: 1;
+}
+
+
 .main-content {
     background-color: white;
     max-width: 500px;
@@ -53,7 +83,7 @@ h2 {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 #addItemBtn {
@@ -233,6 +263,7 @@ h2 {
         opacity: 0;
     }
 }
+
 
 @media screen and (max-width: 450px) {
     .input-container {
