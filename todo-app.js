@@ -89,14 +89,34 @@ function addItem(itemText = "") {
         if (todoList.children.length === 1) {
             goBtn.style.display = "block";
         }
+
+        if (goBtn.style.display === "none") {
+            exitFocusMode()
+        }
     }
 }
+
 
 function startFocusMode() {
     if (todoList.children.length > 0) {
         document.querySelectorAll(".todo-delete-btn").forEach(btn => btn.classList.add("hidden"));
-        currentTaskIndex = 0;
-        displayTask(currentTaskIndex);
+        
+        let foundUncompletedTask = false;
+        for (let i = 0; i < todoList.children.length; i++) {
+            const task = todoList.children[i];
+            if (!task.classList.contains("done")) {
+                currentTaskIndex = i;
+                displayTask(currentTaskIndex);
+                foundUncompletedTask = true;
+                break; 
+            }
+        }
+        
+        if (!foundUncompletedTask) {
+            currentTaskIndex = 0;
+            displayTask(currentTaskIndex);
+        }
+
         goBtn.style.display = "none";
         doneBtn.style.display = "block";
 
@@ -104,11 +124,11 @@ function startFocusMode() {
         const isStrictModeEnabled = strictModeCheckbox.checked;
 
         if (isStrictModeEnabled) {
-            prevBtn.style.display = "none"; // Hide prevBtn
-            nextBtn.style.display = "none"; // Hide nextBtn
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none"; 
         } else {
-            prevBtn.style.display = "block"; // Show prevBtn
-            nextBtn.style.display = "block"; // Show nextBtn
+            prevBtn.style.display = "block";
+            nextBtn.style.display = "block";
         }
     }
 }
@@ -178,6 +198,31 @@ function findPreviousUncompleted(startIndex) {
         }
     }
     return -1;
+}
+
+function exitFocusMode() {
+     // Show all tasks in their original state
+     Array.from(todoList.children).forEach((task) => {
+        task.style.display = "flex"; // Make sure all tasks are visible
+        task.classList.remove("focused-task"); // Remove any focus-specific styling
+    });
+
+    // Re-enable the delete buttons for each task
+    document.querySelectorAll(".todo-delete-btn").forEach(btn => btn.classList.remove("hidden"));
+    
+    // Show the "Go" button and hide "Prev", "Next", and "Done" buttons
+    goBtn.style.display = "block";
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    doneBtn.style.display = "none";
+
+    // Apply line-through styling for completed tasks
+    document.querySelectorAll("#todoList li").forEach(task => {
+        if (task.classList.contains("done")) {
+            task.style.textDecoration = "line-through";
+            task.style.color = "gray";
+        }
+    });
 }
 
 function checkCompletion() {
