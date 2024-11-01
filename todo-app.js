@@ -27,6 +27,8 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const completionMessage = document.getElementById("completionMessage");
 const completedTasksContainer = document.getElementById("completedTasksContainer");
+const strictModeCheckbox = document.getElementById('strictModeCheckbox');
+
 let currentTaskIndex = 0;
 
 addItemBtn.addEventListener("click", () => {
@@ -96,9 +98,18 @@ function startFocusMode() {
         currentTaskIndex = 0;
         displayTask(currentTaskIndex);
         goBtn.style.display = "none";
-        prevBtn.style.display = "block";
         doneBtn.style.display = "block";
-        nextBtn.style.display = "block";
+
+        strictModeCheckbox.parentElement.style.display = "none";
+        const isStrictModeEnabled = strictModeCheckbox.checked;
+
+        if (isStrictModeEnabled) {
+            prevBtn.style.display = "none"; // Hide prevBtn
+            nextBtn.style.display = "none"; // Hide nextBtn
+        } else {
+            prevBtn.style.display = "block"; // Show prevBtn
+            nextBtn.style.display = "block"; // Show nextBtn
+        }
     }
 }
 
@@ -193,12 +204,14 @@ function completeList() {
     completedLists.push(completedListData);
     localStorage.setItem("completedLists", JSON.stringify(completedLists));
 
-    createCompletedListItem(completedListData); 
+    createCompletedListItem(completedListData);
     todoList.innerHTML = "";
     completionMessage.style.display = "block";
     prevBtn.style.display = "none";
     doneBtn.style.display = "none";
     nextBtn.style.display = "none";
+
+    strictModeCheckbox.parentElement.style.display = "block";
 
     setTimeout(() => {
         completionMessage.style.display = "none";
