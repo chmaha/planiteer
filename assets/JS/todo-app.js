@@ -51,6 +51,7 @@ const pomodoroSettings = document.getElementById("pomodoroSettings");
 const timerDisplay = document.getElementById("timerDisplay");
 const takeBreakBtn = document.getElementById("takeBreakBtn");
 const settingsLink = document.getElementById("settingsLink");
+const donateLink = document.querySelector(".donate-link");
 
 // ----------------------------------------------------------
 
@@ -124,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-theme');
+        donateLink.classList.add('dark-theme');
         darkModeToggle.checked = true;
         logo.src = 'assets/images/planiteer_light.webp';
     }
@@ -158,10 +160,12 @@ document.addEventListener("DOMContentLoaded", () => {
 darkModeToggle.addEventListener('change', function () {
     if (darkModeToggle.checked) {
         document.body.classList.add('dark-theme');
+        donateLink.classList.add('dark-theme');
         localStorage.setItem('theme', 'dark');
         logo.src = 'assets/images/planiteer_light.webp';
     } else {
         document.body.classList.remove('dark-theme');
+        donateLink.classList.remove('dark-theme');
         localStorage.setItem('theme', 'light');
         logo.src = 'assets/images/planiteer.webp';
     }

@@ -451,6 +451,10 @@ button {
     text-decoration: none;
 }
 
+.dark-theme .donate-link {
+    color: #cccccc;
+}
+
 .donate-link:hover {
     color: #0070ba;
     text-decoration: underline;
