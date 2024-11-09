@@ -88,7 +88,7 @@ document.getElementById("goBtn").addEventListener("click", () => {
         return 0;
     };
 
-    const initializePomodoro = () => {
+    const rejoinPomodoro = () => {
         startFocusMode();
         if (isBreakActive) {
             startBreak(initRemainingTime);
@@ -102,7 +102,7 @@ document.getElementById("goBtn").addEventListener("click", () => {
             loadUserPreferences();
             loadPomodoroState();
             initRemainingTime = calculateInitRemainingTime();
-            initializePomodoro();
+            rejoinPomodoro();
         } else {
             clearInterval(timer);
             clearInterval(timerTracker);
@@ -735,11 +735,7 @@ function completeList() {
         element.classList.remove('hidden');
     });
     editBtn.style.display = "none";
-    if (isPhoneScreen) {
-        inputContainerPhone.style.display = "flex";
-    } else {
-        inputContainer.style.display = "flex";
-    }
+    toggleResponsiveClasses()
 
     if (pomodoroCheckbox.checked) {
         settingsLink.style.visibility = "visible";
@@ -1146,11 +1142,13 @@ function toggleResponsiveClasses() {
     const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
     if (isMobile || isAndroid || isIOS) {
-        inputContainerPhone.style.display = "flex";
-        buttonContainer.style.display = "flex";
-        addItemBtn.style.display = "flex";
-        itemInputPhone.style.display = "flex";
-        pasteBtnPhone.style.display = "flex";
+        if (!focusMode) {
+            inputContainerPhone.style.display = "flex";
+            buttonContainer.style.display = "flex";
+            addItemBtn.style.display = "flex";
+            itemInputPhone.style.display = "flex";
+            pasteBtnPhone.style.display = "flex";
+        }
         inputContainer.style.display = "none";
         itemInput.style.display = "none";
         pasteBtn.style.display = "none";
@@ -1161,9 +1159,11 @@ function toggleResponsiveClasses() {
         addItemBtn.style.display = "none";
         itemInputPhone.style.display = "none";
         pasteBtnPhone.style.display = "none";
-        inputContainer.style.display = "flex";
-        itemInput.style.display = "block";
-        pasteBtn.style.display = "flex";
+        if (!focusMode) {
+            inputContainer.style.display = "flex";
+            itemInput.style.display = "block";
+            pasteBtn.style.display = "flex";
+        }
         isPhoneScreen = false;
     }
 }
