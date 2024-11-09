@@ -38,7 +38,7 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const inputContainer = document.getElementsByClassName("input-container")[0];
 const inputContainerPhone = document.getElementsByClassName("input-container-phone")[0];
-const isPhoneScreen = window.innerWidth < 430 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const isPhoneScreen = window.matchMedia("(max-width: 430px)");
 const completedTasksContainer = document.getElementById("completedTasksContainer");
 const strictModeCheckbox = document.getElementById('strictModeCheckbox');
 const themeSwitch = document.getElementById('theme-switch');
@@ -118,7 +118,7 @@ nextBtn.addEventListener("click", nextTask);
 pomodoroCheckbox.addEventListener("change", togglePomodoroElements);
 document.getElementById("clearCompletedBtn").addEventListener("click", deleteAllCompletedItems);
 
-// isPhoneScreen.addEventListener("change", initializeEventListeners);
+isPhoneScreen.addEventListener("change", initializeEventListeners);
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -358,7 +358,7 @@ function saveItemTimerState() {
 
 function addItem(itemText = "", skipSave = false) {
 
-    const trimmedText = isPhoneScreen 
+    const trimmedText = isPhoneScreen.matches 
         ? itemText.trim() || itemInputPhone.value.trim()
         : itemText.trim() || itemInput.value.trim();
     
@@ -392,7 +392,7 @@ function addItem(itemText = "", skipSave = false) {
         listItem.appendChild(deleteBtn);
 
         todoList.appendChild(listItem);
-        if (isPhoneScreen) {
+        if (isPhoneScreen.matches) {
             itemInputPhone.value = "";
         } else {
             itemInput.value = "";
@@ -642,7 +642,7 @@ function exitFocusMode() {
     settingsElements.forEach(element => {
         element.classList.remove('hidden');
     });
-    if (isPhoneScreen) {
+    if (isPhoneScreen.matches) {
         inputContainerPhone.style.display = "flex";
     } else {
         inputContainer.style.display = "flex";
@@ -725,7 +725,7 @@ function completeList() {
         element.classList.remove('hidden');
     });
     editBtn.style.display = "none";
-    if (isPhoneScreen) {
+    if (isPhoneScreen.matches) {
         inputContainerPhone.style.display = "flex";
     } else {
         inputContainer.style.display = "flex";
@@ -1115,7 +1115,7 @@ function initializeEventListeners() {
     addItemBtn?.removeEventListener("click", addItem);
     input?.removeEventListener("keypress", handleKeyPress);
 
-    if (isPhoneScreen) {
+    if (isPhoneScreen.matches) {
         pasteBtnPhone.addEventListener('click', showPasteDropdown);
         if (addItemBtn) {
             addItemBtn.addEventListener("click", () => addItem(""));
