@@ -29,6 +29,7 @@ const itemInput = document.getElementById("itemInput");
 const itemInputPhone = document.getElementById("itemInput-phone");
 const pasteBtn = document.getElementById("pasteBtn");
 const pasteBtnPhone = document.getElementById("pasteBtn-phone");
+const buttonContainer = document.getElementById("buttonContainer");
 const editBtn = document.getElementById("editBtn");
 const todoList = document.getElementById("todoList");
 const addItemBtn = document.getElementById("addItemBtn");
@@ -36,9 +37,9 @@ const goBtn = document.getElementById("goBtn");
 const doneBtn = document.getElementById("doneBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+let isPhoneScreen = window.innerWidth < 430 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 const inputContainer = document.getElementsByClassName("input-container")[0];
 const inputContainerPhone = document.getElementsByClassName("input-container-phone")[0];
-const isPhoneScreen = window.matchMedia("(max-width: 430px)");
 const completedTasksContainer = document.getElementById("completedTasksContainer");
 const strictModeCheckbox = document.getElementById('strictModeCheckbox');
 const themeSwitch = document.getElementById('theme-switch');
@@ -54,6 +55,11 @@ const settingsLink = document.getElementById("settingsLink");
 const donateLink = document.querySelector(".donate-link");
 
 // ----------------------------------------------------------
+
+window.addEventListener('resize', () => {
+    toggleResponsiveClasses();
+    initializeEventListeners();
+});
 
 document.getElementById("goBtn").addEventListener("click", () => {
 
@@ -118,40 +124,39 @@ nextBtn.addEventListener("click", nextTask);
 pomodoroCheckbox.addEventListener("change", togglePomodoroElements);
 document.getElementById("clearCompletedBtn").addEventListener("click", deleteAllCompletedItems);
 
-isPhoneScreen.addEventListener("change", initializeEventListeners);
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    
+    toggleResponsiveClasses();
+
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-theme');
         donateLink.classList.add('dark-theme');
         darkModeToggle.checked = true;
         logo.src = 'assets/images/planiteer_light.webp';
     }
-    
+
     const soundsEnabled = localStorage.getItem("soundsEnabled");
-    
+
     if (soundsEnabled !== null) {
         soundsToggle.checked = soundsEnabled === "true";
     } else {
         soundsToggle.checked = true;
     }
-    
+
     const completedLists = JSON.parse(localStorage.getItem("completedLists")) || [];
-    
+
     if (completedLists.length > 0) {
         document.getElementById("clearCompletedBtn").style.display = 'block';
     }
-    
+
     completedTasksContainer.innerHTML = '';
-    
+
     completedLists.forEach(completedListData => {
         createCompletedListItem(completedListData);
     });
-    
+
     togglePomodoroElements();
-    
+
     loadItems();
     saveItems();
     initializeEventListeners();
@@ -358,10 +363,10 @@ function saveItemTimerState() {
 
 function addItem(itemText = "", skipSave = false) {
 
-    const trimmedText = isPhoneScreen.matches 
+    const trimmedText = isPhoneScreen
         ? itemText.trim() || itemInputPhone.value.trim()
         : itemText.trim() || itemInput.value.trim();
-    
+
     if (trimmedText) {
         const listItem = document.createElement("li");
         const handleSpan = document.createElement("span");
@@ -392,7 +397,7 @@ function addItem(itemText = "", skipSave = false) {
         listItem.appendChild(deleteBtn);
 
         todoList.appendChild(listItem);
-        if (isPhoneScreen.matches) {
+        if (isPhoneScreen) {
             itemInputPhone.value = "";
         } else {
             itemInput.value = "";
@@ -642,7 +647,7 @@ function exitFocusMode() {
     settingsElements.forEach(element => {
         element.classList.remove('hidden');
     });
-    if (isPhoneScreen.matches) {
+    if (isPhoneScreen) {
         inputContainerPhone.style.display = "flex";
     } else {
         inputContainer.style.display = "flex";
@@ -725,7 +730,7 @@ function completeList() {
         element.classList.remove('hidden');
     });
     editBtn.style.display = "none";
-    if (isPhoneScreen.matches) {
+    if (isPhoneScreen) {
         inputContainerPhone.style.display = "flex";
     } else {
         inputContainer.style.display = "flex";
@@ -1115,7 +1120,7 @@ function initializeEventListeners() {
     addItemBtn?.removeEventListener("click", addItem);
     input?.removeEventListener("keypress", handleKeyPress);
 
-    if (isPhoneScreen.matches) {
+    if (isPhoneScreen) {
         pasteBtnPhone.addEventListener('click', showPasteDropdown);
         if (addItemBtn) {
             addItemBtn.addEventListener("click", () => addItem(""));
@@ -1126,6 +1131,35 @@ function initializeEventListeners() {
         if (input) {
             input.addEventListener("keypress", handleKeyPress);
         }
+    }
+}
+
+function toggleResponsiveClasses() {
+    const isMobile = window.innerWidth <= 430;
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /android/i.test(userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+    if (isMobile || isAndroid || isIOS) {
+        inputContainerPhone.style.display = "flex";
+        buttonContainer.style.display = "flex";
+        addItemBtn.style.display = "flex";
+        itemInputPhone.style.display = "flex";
+        pasteBtnPhone.style.display = "flex";
+        inputContainer.style.display = "none";
+        itemInput.style.display = "none";
+        pasteBtn.style.display = "none";
+        isPhoneScreen = true;
+    } else {
+        inputContainerPhone.style.display = "none";
+        buttonContainer.style.display = "none";
+        addItemBtn.style.display = "none";
+        itemInputPhone.style.display = "none";
+        pasteBtnPhone.style.display = "none";
+        inputContainer.style.display = "flex";
+        itemInput.style.display = "block";
+        pasteBtn.style.display = "flex";
+        isPhoneScreen = false;
     }
 }
 

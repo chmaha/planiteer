@@ -168,6 +168,8 @@ button {
 
 .input-container-phone {
     display: none;
+    flex-direction: column;
+    margin-bottom: 10px;
 }
 
 #itemInput {
@@ -178,13 +180,26 @@ button {
 
 #itemInput-phone {
     display: none;
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
 }
 
 #buttonContainer {
     display: flex;
-    justify-content: right;
-    width: 35%;
-    margin: 0 auto;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px auto;
+}
+
+#addItemBtn {
+    padding-top: 10px;
+    justify-content: center;
+    min-width: 50%;
+    padding-bottom: 10px;
+    margin-right: 3px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 #pasteBtn {
@@ -196,6 +211,11 @@ button {
 
 #pasteBtn-phone {
     display: none;
+    justify-content: center;
+    min-width: 45%;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 #editBtn {
@@ -461,57 +481,8 @@ button {
 }
 
 @media screen and (max-width: 430px) {
-    .input-container {
-        display: none;
-    }
-
-    .input-container-phone {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-    }
-
-    #itemInput-phone {
-        display: flex;
-        flex-grow: 1;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    #itemInput {
-        display: none;
-    }
-
-    #buttonContainer {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin: 10px auto;
-    }
-
-    #addItemBtn {
-        padding-top: 10px;
-        min-width: 50%;
-        padding-bottom: 10px;
-        margin-right: 3px;
-        font-size: 16px;
-        cursor: pointer;
-    }
 
     #logo {
         margin-top: 25px;
-    }
-
-    #pasteBtn-phone {
-        display: flex;
-        justify-content: center;
-        min-width: 45%;
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    #pasteBtn {
-        display: none;
     }
 }
