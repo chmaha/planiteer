@@ -62,60 +62,66 @@ window.addEventListener('resize', () => {
 });
 
 document.getElementById("goBtn").addEventListener("click", () => {
+    let rawTime;
+    focusDuration = document.getElementById("focusDuration").value || 25;
+    shortBreakDuration = document.getElementById("shortBreakDuration").value || 5;
+    longBreakDuration = document.getElementById("longBreakDuration").value || 15;
+
+    const loadUserPreferences = () => {
+        const userPreferences = JSON.parse(localStorage.getItem("userPreferences")) || {};
+        isBreakActive = userPreferences.isBreakActive || false;
+        isFocusActive = userPreferences.isFocusActive || false;
+    };
+
+    const loadPomodoroState = () => {
+        const savedPomodoroTimerState = JSON.parse(localStorage.getItem("pomodoroTimerState"));
+        rawTime = savedPomodoroTimerState?.remainingTime - 1 || 0;
+    };
+
+    const calculateInitRemainingTime = () => {
+        if (isFocusActive) {
+            return rawTime / 60 || focusDuration;
+        } else if (isBreakActive) {
+            return rawTime / 60 || (breakClicks % 4 === 0 ? longBreakDuration : shortBreakDuration);
+        }
+
+        return 0;
+    };
+
+    const initializePomodoro = () => {
+        startFocusMode();
+        if (isBreakActive) {
+            startBreak(initRemainingTime);
+        } else {
+            startPomodoroFocus()
+        }
+    };
 
     if (exited) {
-
-        focusDuration = document.getElementById("focusDuration").value || 25;
-        shortBreakDuration = document.getElementById("shortBreakDuration").value || 5;
-        longBreakDuration = document.getElementById("longBreakDuration").value || 15;
-
         if (pomodoroCheckbox.checked) {
-            const userPreferences = JSON.parse(localStorage.getItem("userPreferences")) || {};
-            isBreakActive = userPreferences.isBreakActive || false;
-            isFocusActive = userPreferences.isFocusActive || false;
-            const savedPomodoroTimerState = JSON.parse(localStorage.getItem("pomodoroTimerState"));
-            rawTime = 0;
-            if (savedPomodoroTimerState) {
-                rawTime = savedPomodoroTimerState.remainingTime - 1 || 0;
-            }
-            if (isFocusActive) {
-                initRemainingTime = rawTime / 60 || focusDuration;
-            } else if (isBreakActive) {
-                initRemainingTime = rawTime / 60
-                    || (breakClicks % 4 === 0 ? longBreakDuration : shortBreakDuration);
-            }
-            startFocusMode()
-            if (isFocusActive) {
-                startPomodoroFocus()
-            } else if (isBreakActive) {
-                startBreak(initRemainingTime)
-            }
+            loadUserPreferences();
+            loadPomodoroState();
+            initRemainingTime = calculateInitRemainingTime();
+            initializePomodoro();
         } else {
-            clearInterval(timer)
-            clearInterval(timerTracker)
+            clearInterval(timer);
+            clearInterval(timerTracker);
             localStorage.removeItem("pomodoroTimerState");
             startFocusMode();
-            isFocusActive = true;
-            isBreakActive = false;
-
-            if (pomodoroCheckbox.checked) {
-                startTimer(focusDuration);
-            }
-
         }
     } else {
         startFocusMode();
-        isFocusActive = true;
-        isBreakActive = false;
-
         if (pomodoroCheckbox.checked) {
-            startTimer(focusDuration);
+            startPomodoroFocus();
+        } else {
+            isFocusActive = false;
+            isBreakActive = false;
         }
-
     }
 
     saveItems();
 });
+
 
 editBtn.addEventListener("click", exitFocusMode);
 doneBtn.addEventListener("click", markAsDoneAndNext);
@@ -507,7 +513,6 @@ function startFocusMode() {
             prevBtn.style.display = "block";
             nextBtn.style.display = "block";
         }
-
     }
 }
 
