@@ -134,12 +134,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     toggleResponsiveClasses();
 
-    if (localStorage.getItem('theme') === 'dark') {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    setBackground(currentTheme);
+
+    if (currentTheme === 'dark') {
         document.body.classList.add('dark-theme');
         donateLink.classList.add('dark-theme');
         darkModeToggle.checked = true;
         logo.src = 'assets/images/planiteer_light.webp';
     }
+
 
     const soundsEnabled = localStorage.getItem("soundsEnabled");
 
@@ -174,11 +179,13 @@ darkModeToggle.addEventListener('change', function () {
         donateLink.classList.add('dark-theme');
         localStorage.setItem('theme', 'dark');
         logo.src = 'assets/images/planiteer_light.webp';
+        setBackground('dark');
     } else {
         document.body.classList.remove('dark-theme');
         donateLink.classList.remove('dark-theme');
         localStorage.setItem('theme', 'light');
         logo.src = 'assets/images/planiteer.webp';
+        setBackground('light');
     }
 });
 
@@ -1167,6 +1174,61 @@ function toggleResponsiveClasses() {
         isPhoneScreen = false;
     }
 }
+
+let backgroundChangeListenerAdded = false;
+
+function setBackground(theme) {
+    const backgroundSelector = document.getElementById("backgroundSelector");
+    const imagePath = "assets/images/backgrounds/";
+    const imageExtension = ".webp";
+
+    fetch("backgrounds.json")
+        .then(response => response.json())
+        .then(data => {
+
+            const backgroundList = theme === 'dark' ? data.dark : data.light;
+
+            backgroundList.sort();
+
+            backgroundSelector.innerHTML = "";
+            backgroundList.forEach(imageName => {
+                const option = document.createElement("option");
+                option.value = imageName;
+                option.textContent = imageName;
+                backgroundSelector.appendChild(option);
+            });
+
+            const defaultBackground = theme === 'dark' ? 'leaves_dark' : 'leaves';
+            
+            const savedBackground = localStorage.getItem(
+                theme === 'dark' ? 'selectedDarkBackground' : 'selectedLightBackground'
+            );
+
+            const finalBackground = savedBackground || defaultBackground;
+
+            document.body.style.backgroundImage = `url('${imagePath}${finalBackground}${imageExtension}')`;
+            backgroundSelector.value = finalBackground;
+
+            if (!backgroundChangeListenerAdded) {
+                backgroundSelector.addEventListener("change", backgroundChangeListener);
+                backgroundChangeListenerAdded = true;
+            }
+        })
+        .catch(error => console.error("Error fetching background images:", error));
+
+    function backgroundChangeListener() {
+        const selectedBackground = backgroundSelector.value;
+        document.body.style.backgroundImage = `url('${imagePath}${selectedBackground}${imageExtension}')`;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            localStorage.setItem('selectedDarkBackground', selectedBackground);
+        } else {
+            localStorage.setItem('selectedLightBackground', selectedBackground);
+        }
+    }
+}
+
 
 // ----------------------------------------------------------
 

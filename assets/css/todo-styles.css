@@ -18,6 +18,19 @@
     visibility: hidden;
 }
 
+.backgroundSelector label {
+    font-size: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.backgroundSelector select {
+    font-size: 10px;
+    padding: 4px 8px;
+    width: 120px;
+    line-height: 20px;
+    border-radius: 4px;
+}
+
 .main-content {
     position: relative;
 }
@@ -51,7 +64,7 @@ body {
     max-width: 500px;
     margin: 20px auto;
     padding: 0 20px;
-    background-image: url('../images/leaves.webp');
+    background-image: url('../images/backgrounds/leaves.webp');
     background-repeat: repeat;
     background-size: auto;
 }
@@ -151,7 +164,7 @@ body {
     background-color: white;
     max-width: 500px;
     min-height: 50vh;
-    margin: 50px auto 0px;
+    margin: 10px auto 0px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -392,7 +405,7 @@ button {
 }
 
 .dark-theme {
-    background-image: url('../images/leaves_dark.webp');
+    background-image: url('../images/backgrounds/leaves_dark.webp');
     background-repeat: repeat;
     background-size: auto;
 }
@@ -469,10 +482,18 @@ button {
     font-size: 12px;
     color: #000;
     text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .dark-theme .donate-link {
     color: #cccccc;
+    background-color: transparent;
+    background-image: none;
+}
+
+.dark-theme .backgroundSelector label {
+    color: #cccccc;
+    background-color: transparent;
 }
 
 .donate-link:hover {

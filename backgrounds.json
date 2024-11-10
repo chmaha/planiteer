@@ -1,0 +1,38 @@
+{
+    "light": [
+        "leaves",
+        "pink-flowers",
+        "watercolor",
+        "blue-snow",
+        "canadian-dollar",
+        "double-bubble",
+        "sun",
+        "moroccan-flower",
+        "cork-board",
+        "paisley",
+        "restaurant",
+        "p6",
+        "pixel-heart",
+        "oriental",
+        "full-bloom",
+        "xmas"
+    ],
+    "dark": [
+        "leaves_dark",
+        "moroccan-flower-dark",
+        "double-bubble-dark",
+        "circle-blues",
+        "vintage-wallpaper",
+        "hotel-wallpaper-black",
+        "diagonal-squares",
+        "wheat",
+        "christmas-black",
+        "denim",
+        "oriental-tiles",
+        "dark-paths",
+        "dark-grey-terrazzo",
+        "stars",
+        "pool_table",
+        "carbon_fibre"
+    ]
+}
