@@ -618,6 +618,10 @@ function findPreviousUncompleted(startIndex) {
 }
 
 function exitFocusMode() {
+    clearInterval(timer);
+    clearInterval(timerTracker);
+    clearInterval(itemFocusTimer);
+    clearInterval(itemFocusTracker);
     focusMode = false;
     saveItems();
     isBreakActive = false;
