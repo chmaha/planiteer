@@ -7,8 +7,10 @@
 - Press "Prev" or "Next" to skip around
 - Press "Done" to complete a task (automatically moves to next uncompleted task)
 - Completed lists along with associated timings are saved locally (click to expand)
+- If an urgent task is dropped in your inbox after pressing the "Go" button, simply press "Edit". Press "Go" to return to the focussed to-do session.
 - Optional "strict" mode hides previous and next buttons to prevent skipping around tasks
 - Optional "Pomodoro" timer mode allows the user to set focus, short, and long break times (every 4th break is long)
 - Optional - Automatically start pomodoros after a break and/or automatically switch tasks on next pomodoro
-- If an urgent task is dropped in your inbox after pressing the "Go" button, simply add a new task to switch back to "edit" mode. Press "Go" to return to the focussed to-do session.
+- Optional - Pick from one of 32 wallpapers to customize your experience
+
 
