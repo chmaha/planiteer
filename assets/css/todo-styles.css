@@ -501,6 +501,27 @@ button {
     text-decoration: underline;
 }
 
+.edit-text-btn {
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.dark-theme .edit-text-btn {
+    filter: grayscale(100%) brightness(0.6);
+}
+
+.edit-text-input {
+    width: 80%;
+    padding: 4px;
+    font-size: 1em;
+}
+
+.save-btn {
+    cursor: pointer;
+    margin-left: 8px;
+    color: green;
+}
+
 @media screen and (max-width: 430px) {
 
     #logo {

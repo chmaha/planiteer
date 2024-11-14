@@ -62,6 +62,18 @@ window.addEventListener('resize', () => {
 });
 
 document.getElementById("goBtn").addEventListener("click", () => {
+
+    const editingInputs = document.querySelectorAll(".edit-text-input");
+    editingInputs.forEach(input => {
+        const listItem = input.closest("li");
+        if (listItem) {
+            const saveBtn = listItem.querySelector(".save-btn");
+            if (saveBtn) {
+                saveBtn.click();
+            }
+        }
+    });
+
     let rawTime;
     focusDuration = document.getElementById("focusDuration").value || 25;
     shortBreakDuration = document.getElementById("shortBreakDuration").value || 5;
@@ -302,7 +314,13 @@ function loadItems() {
     savedItems.forEach(item => {
         addItem(item.text, true);
         if (item.done) {
-            todoList.children[i].classList.add("done");
+            const listItem = todoList.children[i];
+            listItem.classList.add("done");
+
+            const editBtn = listItem.querySelector(".edit-text-btn");
+            if (editBtn) {
+                editBtn.classList.add("hiddenItemElement");
+            }
         }
         if (item.text == taskName) {
             resumeIndex = i;
@@ -328,13 +346,22 @@ function loadItems() {
 }
 
 function saveItems() {
-    const itemsToSave = Array.from(todoList.children).map((item) => ({
-        text: item.querySelector(".text").textContent,
-        done: item.classList.contains("done"),
-    }));
+    const itemsToSave = Array.from(todoList.children).map((item) => {
+        const textElement = item.querySelector(".text") || item.querySelector("input.edit-text-input");
+
+        if (!textElement) {
+            console.error("Item text not found, skipping item...");
+            return { text: "", done: item.classList.contains("done") };
+        }
+
+        return {
+            text: textElement.textContent || textElement.value,
+            done: item.classList.contains("done"),
+        };
+    });
 
     const task = todoList.children[currentTaskIndex];
-    const taskName = task ? task.querySelector(".text").textContent : "";
+    const taskName = task ? task.querySelector(".text") ? task.querySelector(".text").textContent : "" : "";
     currentTaskName = taskName;
 
     const autoStart = document.getElementById("autoStartNextPomodoro").checked;
@@ -357,8 +384,8 @@ function saveItems() {
     };
     localStorage.setItem("todoItems", JSON.stringify(itemsToSave));
     localStorage.setItem("userPreferences", JSON.stringify(userPreferences));
-
 }
+
 
 function savePomodoroTimerState() {
     const pomodoroTimerState = {
@@ -395,6 +422,12 @@ function addItem(itemText = "", skipSave = false) {
         textSpan.className = "text";
         textSpan.textContent = trimmedText;
         listItem.appendChild(textSpan);
+
+        const editBtn = document.createElement("span");
+        editBtn.className = "edit-text-btn";
+        editBtn.innerHTML = "✏️";
+        editBtn.onclick = () => enterEditMode(listItem, textSpan);
+        listItem.appendChild(editBtn);
 
         const deleteBtn = document.createElement("span");
         deleteBtn.className = "todo-delete-btn";
@@ -465,6 +498,7 @@ function startFocusMode() {
     }
 
     if (todoList.children.length > 0) {
+        document.querySelectorAll(".edit-text-btn").forEach(btn => btn.classList.add("hiddenItemElement"));
         document.querySelectorAll(".todo-delete-btn").forEach(btn => btn.classList.add("hiddenItemElement"));
         document.querySelectorAll(".handle").forEach(handle => handle.classList.add("hiddenItemElement"));
         if (resumeIndex == null) {
@@ -638,7 +672,7 @@ function exitFocusMode() {
         const currentTimeSpent = taskTimers.get(i) || 0;
         timeSpentTracker[taskName] = (timeSpentTracker[taskName] || 0) + currentTimeSpent;
     }
-
+    document.querySelectorAll(".edit-text-btn").forEach(btn => btn.classList.remove("hiddenItemElement"));
     document.querySelectorAll(".todo-delete-btn").forEach(btn => btn.classList.remove("hiddenItemElement"));
     document.querySelectorAll(".handle").forEach(handle => handle.classList.remove("hiddenItemElement"));
 
@@ -648,9 +682,19 @@ function exitFocusMode() {
     doneBtn.style.display = "none";
 
     document.querySelectorAll("#todoList li").forEach(task => {
+
+        const editBtn = task.querySelector(".edit-text-btn");
+
         if (task.classList.contains("done")) {
             task.style.textDecoration = "line-through";
             task.style.color = "gray";
+            if (editBtn) {
+                editBtn.classList.add("hiddenItemElement");
+            }
+        } else {
+            if (editBtn) {
+                editBtn.classList.remove("hiddenItemElement");
+            }
         }
     });
 
@@ -1203,7 +1247,7 @@ function setBackground(theme) {
             });
 
             const defaultBackground = theme === 'dark' ? 'leaves_dark' : 'leaves';
-            
+
             const savedBackground = localStorage.getItem(
                 theme === 'dark' ? 'selectedDarkBackground' : 'selectedLightBackground'
             );
@@ -1231,6 +1275,86 @@ function setBackground(theme) {
             localStorage.setItem('selectedLightBackground', selectedBackground);
         }
     }
+}
+
+function enterEditMode(listItem, textSpan) {
+    const originalText = textSpan.textContent;
+
+    const editBtn = listItem.querySelector(".edit-text-btn");
+    if (editBtn) {
+        editBtn.classList.add("hiddenItemElement");
+    }
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "edit-text-input";
+    editInput.value = originalText;
+
+    listItem.replaceChild(editInput, textSpan);
+    editInput.focus();
+
+    function handleEnterKey(event) {
+        if (event.key === "Enter") {
+            saveEdit(listItem, editInput, textSpan);
+        }
+    }
+
+    editInput.removeEventListener("keydown", handleEnterKey);
+    editInput.addEventListener("keydown", handleEnterKey);
+
+    const saveBtn = document.createElement("span");
+    saveBtn.className = "save-btn";
+    saveBtn.textContent = "✔️";
+    saveBtn.onclick = () => saveEdit(listItem, editInput, textSpan);
+
+    listItem.insertBefore(saveBtn, editInput.nextSibling);
+
+}
+
+function saveEdit(listItem, editInput, textSpan) {
+    const newText = editInput.value.trim();
+    const oldText = textSpan.textContent.trim();
+
+    if (newText && newText !== oldText) {
+        textSpan.textContent = newText;
+
+        if (timeSpentTracker[oldText]) {
+            timeSpentTracker[newText] = timeSpentTracker[oldText];
+            delete timeSpentTracker[oldText];
+        }
+
+        const listItems = Array.from(todoList.children);
+
+        const listItemIndex = listItems.findIndex(item => {
+            const textElement = item.querySelector(".text");
+            return textElement && textElement.textContent.trim() === oldText;
+        });
+
+        if (listItemIndex !== -1) {
+            const item = listItems[listItemIndex];
+            const isDone = item.classList.contains("done");
+
+            const textElement = item.querySelector(".text");
+            if (textElement) {
+                textElement.textContent = newText;
+            }
+
+            if (isDone) {
+                item.classList.add("done");
+            } else {
+                item.classList.remove("done");
+            }
+        }
+
+        saveItems();
+    }
+
+    listItem.replaceChild(textSpan, editInput);
+    const saveBtn = listItem.querySelector(".save-btn");
+    if (saveBtn) listItem.removeChild(saveBtn);
+
+    const editBtn = listItem.querySelector(".edit-text-btn");
+    if (editBtn) editBtn.classList.remove("hiddenItemElement");
 }
 
 
