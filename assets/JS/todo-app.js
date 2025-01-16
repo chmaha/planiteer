@@ -343,6 +343,7 @@ function loadItems() {
             startBreak(initRemainingTime)
         }
     }
+    itemFocusTime = 0;
 }
 
 function saveItems() {
