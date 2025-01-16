@@ -337,11 +337,11 @@ function loadItems() {
 
     if (focusMode) {
         startFocusMode()
-    }
-    if (isFocusActive) {
-        startPomodoroFocus()
-    } else if (isBreakActive) {
-        startBreak(initRemainingTime)
+        if (isFocusActive) {
+            startPomodoroFocus()
+        } else if (isBreakActive) {
+            startBreak(initRemainingTime)
+        }
     }
 }
 
