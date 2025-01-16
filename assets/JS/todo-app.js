@@ -1374,7 +1374,7 @@ function trackFocusAndUnfocus() {
         const focusedTime = new Date();
         if (blurredRemainingTime) {
             const timeDifference = Math.round((focusedTime - unfocusedTime) / 1000);
-            if (isFocusActive || isBreakActive)  {
+            if (isFocusActive)  {
                 remainingTime = Math.max(0, blurredRemainingTime - timeDifference);
             }
         }
