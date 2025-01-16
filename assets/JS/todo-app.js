@@ -20,6 +20,8 @@ let exited = false;
 let itemFocusTracker;
 let itemFocusTime;
 let trimmedText;
+let blurredRemainingTime = null;
+let unfocusedTime = null;
 
 const lightModeColors = ['#FF0B00', '#FFFD00', '#00FF00', '#00FFF0', '#0000FF', '#FF00FF'];
 const darkModeColors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#FFBAF0'];
@@ -124,7 +126,9 @@ document.getElementById("goBtn").addEventListener("click", () => {
     } else {
         startFocusMode();
         if (pomodoroCheckbox.checked) {
+            trackFocusAndUnfocus();
             startPomodoroFocus();
+
         } else {
             isFocusActive = false;
             isBreakActive = false;
@@ -1358,6 +1362,24 @@ function saveEdit(listItem, editInput, textSpan) {
     if (editBtn) editBtn.classList.remove("hiddenItemElement");
 }
 
+function trackFocusAndUnfocus() {
+    // When the window becomes unfocused
+    window.addEventListener("blur", () => {
+        blurredRemainingTime = remainingTime;
+        unfocusedTime = new Date();
+    });
+
+    // When the window becomes focused
+    window.addEventListener("focus", () => {
+        const focusedTime = new Date();
+        if (blurredRemainingTime) {
+            const timeDifference = Math.round((focusedTime - unfocusedTime) / 1000);
+            if (isFocusActive || isBreakActive)  {
+                remainingTime = Math.max(0, blurredRemainingTime - timeDifference);
+            }
+        }
+    });
+}
 
 // ----------------------------------------------------------
 
